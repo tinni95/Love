@@ -16,7 +16,6 @@ import {
 import {
   BoldOpen,
   Bold,
-  Body,
   LightOpen,
 } from "./components/StyledText/StyledText.components";
 import { LinearGradient } from "expo-linear-gradient";
@@ -26,6 +25,7 @@ import LoveTextInput from "./components/LoveTextInput/LoveTextInput.component";
 import Spacer from "./components/Spacer/Spacer";
 import LoveButton from "./components/LoveButton/LoveButton.component";
 import Axios from "axios";
+
 const { width, height } = Dimensions.get("window");
 
 const endY = height * -1;
@@ -80,12 +80,14 @@ export default function App() {
 
   const switchView = () => {
     if (loading) {
-      return <ActivityIndicator />;
+      return (
+        <View style={styles.centerContainer}>
+          <ActivityIndicator color={"white"} size={"large"} />
+        </View>
+      );
     } else if (result) {
       return (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
+        <View style={styles.centerContainer}>
           {animatedNumber(result.percentage)}
           <LightOpen style={{ color: "white", fontSize: 20 }}>
             {result.result}
@@ -141,6 +143,11 @@ const styles = StyleSheet.create({
     paddingTop: "40%",
     alignItems: "center",
     justifyContent: "center",
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   heartContainer: {
     position: "absolute",
