@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Dimensions, ActivityIndicator } from "react-native";
+import {
+  Animated,
+  StyleSheet,
+  View,
+  Dimensions,
+  ActivityIndicator,
+  Easing,
+} from "react-native";
 import {
   useFonts,
   LobsterTwo_400Regular,
@@ -7,7 +14,7 @@ import {
   LobsterTwo_700Bold,
   LobsterTwo_700Bold_Italic,
 } from "@expo-google-fonts/lobster-two";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, AntDesign } from "@expo/vector-icons";
 import {
   OpenSans_300Light,
   OpenSans_300Light_Italic,
@@ -20,22 +27,31 @@ import {
 } from "./components/StyledText/StyledText.components";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppLoading } from "expo";
-import AnimateNumber from "react-native-animate-number";
+import AnimateNumber from "react-native-countup";
 import LoveTextInput from "./components/LoveTextInput/LoveTextInput.component";
 import Spacer from "./components/Spacer/Spacer";
 import LoveButton from "./components/LoveButton/LoveButton.component";
 import Axios from "axios";
-
-const { width, height } = Dimensions.get("window");
-
-const endY = height * -1;
-const startX = width;
+import HeartFloating from "./HeartFloating";
+import { captureScreen } from "react-native-view-shot";
+import { EvilIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function App() {
   const [name, setName] = useState(null);
   const [partner, setPartner] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [animate, setTextAnimationEnd] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const fadeIn = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+    }).start();
+  };
 
   let [fontsLoaded] = useFonts({
     LobsterTwo_400Regular,
@@ -53,12 +69,36 @@ export default function App() {
 
   const animatedNumber = (num) => {
     return (
-      <BoldOpen style={{ fontSize: 50, textAlign: "center", color: "white" }}>
-        <AnimateNumber value={num} countBy={1} timing="linear" />%
+      <BoldOpen style={{ fontSize: 80, textAlign: "center", color: "white" }}>
+        <AnimateNumber
+          onFinish={() => {
+            setTextAnimationEnd(true);
+            fadeIn();
+          }}
+          countBy={1}
+          value={num}
+          timing="easeIn"
+        />
+        %
       </BoldOpen>
     );
   };
 
+  const getLimit = (perc) => {
+    console.log(perc);
+    if (perc == 0) {
+      return 1;
+    } else if (perc < 15) {
+      return 5;
+    } else if (perc < 33) return 10;
+    else if (perc < 66) {
+      return 15;
+    } else if (perc < 88) {
+      return 25;
+    } else {
+      50;
+    }
+  };
   const calculateIndex = () => {
     if (!name || !partner) return;
     setLoading(true);
@@ -87,19 +127,52 @@ export default function App() {
       );
     } else if (result) {
       return (
-        <View style={styles.centerContainer}>
-          {animatedNumber(result.percentage)}
-          <LightOpen style={{ color: "white", fontSize: 20 }}>
-            {result.result}
-          </LightOpen>
-          <Spacer />
-          <LoveButton onPress={() => setResult(null)} text={"Try again"} />
-        </View>
+        <HeartFloating
+          onComplete={() => setTextAnimationEnd(false)}
+          animate={animate}
+          limit={getLimit(result.percentage)}
+        >
+          <View style={styles.centerContainer}>
+            <Animated.View style={{ opacity: fadeAnim, alignItems: "center" }}>
+              <Bold style={{ fontSize: 38 }}>
+                {name} and {partner}
+              </Bold>
+              <BoldOpen>Love Index</BoldOpen>
+            </Animated.View>
+            {animatedNumber(result.percentage)}
+            <Spacer />
+            <Spacer />
+            <Animated.View style={{ opacity: fadeAnim, alignItems: "center" }}>
+              <LightOpen
+                style={{ color: "white", fontSize: 40, textAlign: "center" }}
+              >
+                {result.result}
+              </LightOpen>
+              <Spacer />
+
+              <LoveButton
+                textStyle={{ fontSize: 30 }}
+                buttonStyle={{ height: 50 }}
+                onPress={() => {
+                  setResult(null);
+                  fadeAnim.setValue(0);
+                }}
+                text={"Try again"}
+              />
+            </Animated.View>
+            <View style={styles.footer}>
+              <TouchableOpacity onPress={() => {}}>
+                <EvilIcons name="share-apple" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </HeartFloating>
       );
     } else {
       return (
         <View style={styles.contentContainer}>
-          <Bold style={{ fontSize: 40, color: "white" }}>Love Index</Bold>
+          <Bold style={{ fontSize: 70, color: "white" }}>Love Index</Bold>
+          <Spacer />
           <Spacer />
           <Spacer />
           <LoveTextInput
@@ -140,7 +213,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   contentContainer: {
-    paddingTop: "40%",
+    paddingTop: "20%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -155,10 +228,15 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   heart: {
-    width: 25,
-    height: 25,
+    width: 35,
+    height: 35,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "transparent",
+  },
+  footer: {
+    backgroundColor: "red",
+    flex: 0.5,
+    justifyContent: "flex-end",
   },
 });
