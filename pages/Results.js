@@ -17,6 +17,7 @@ import { EvilIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import Axios from "axios";
 import AnimateNumber from "react-native-countup";
+import { API_KEY } from "react-native-dotenv";
 
 export default Results = ({ navigation, route }) => {
   const { name, partner } = route.params;
@@ -48,6 +49,7 @@ export default Results = ({ navigation, route }) => {
     else if (perc < 66) {
       return 15;
     } else if (perc < 88) {
+      //yes
       return 25;
     } else {
       50;
@@ -80,8 +82,7 @@ export default Results = ({ navigation, route }) => {
       {
         headers: {
           "x-rapidapi-host": "love-calculator.p.rapidapi.com",
-          "x-rapidapi-key":
-            "e4ef5c1f70msh3b87a1382284528p1c38ecjsn8a7ba5ca30b5",
+          "x-rapidapi-key": API_KEY,
         },
       }
     ).then((res) => {

@@ -12,7 +12,7 @@ function Home({ navigation, play }) {
   const [name, setName] = useState(null);
   const [partner, setPartner] = useState(null);
   const [KeyboardShown, setKeyboardShown] = useState(false);
-  const growAnim = React.useRef(new Animated.Value(0.3)).current;
+  const growAnim = React.useRef(new Animated.Value(1)).current;
 
   React.useEffect(() => {
     const playAd = async () => {
