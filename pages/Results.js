@@ -20,8 +20,9 @@ import AnimateNumber from "react-native-countup";
 
 import { Audio } from "expo-av";
 import { API_KEY } from "../env";
+import PlayContext from "../play.context";
 
-export default Results = ({ navigation, route }) => {
+const Results = ({ navigation, route, play }) => {
   const { name, partner } = route.params;
   const soundObject = new Audio.Sound();
 
@@ -92,7 +93,7 @@ export default Results = ({ navigation, route }) => {
             setTextAnimationEnd(true);
             fadeIn();
             setLooping(false);
-            playSound(num);
+            if (play.sound) playSound(num);
           }}
           countBy={1}
           value={num}
@@ -117,8 +118,7 @@ export default Results = ({ navigation, route }) => {
     setResult(result.data);
     setLoading(false);
     await soundObject.loadAsync(require("../assets/sounds/tictoc.wav"));
-
-    await soundObject.setStatusAsync({ shouldPlay: true });
+    if (play.sound) await soundObject.setStatusAsync({ shouldPlay: true });
   };
 
   if (loading || !result) {
@@ -199,3 +199,11 @@ const styles = StyleSheet.create({
   },
   couple: { fontSize: 38, color: Colors.MEDIUM_PINK },
 });
+
+const ResultsWithContext = (props) => (
+  <PlayContext.Consumer>
+    {(play) => <Results {...props} play={play} />}
+  </PlayContext.Consumer>
+);
+
+export default ResultsWithContext;

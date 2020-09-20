@@ -33,6 +33,7 @@ const forFade = ({ current }) => ({
 
 export default function App() {
   const [play, setPlay] = React.useState(0);
+  const [sound, setSound] = React.useState(true);
   let [fontsLoaded] = useFonts({
     LobsterTwo_400Regular,
     LobsterTwo_400Regular_Italic,
@@ -50,6 +51,8 @@ export default function App() {
         increment: () => setPlay(play + 1),
         play,
         reset: () => setPlay(0),
+        sound,
+        toggleSound: () => setSound(!sound),
       }}
     >
       <NavigationContainer theme={MyTheme}>

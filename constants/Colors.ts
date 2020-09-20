@@ -8,4 +8,5 @@ export default {
   MEDIUM_PINK: "#FFA3CD",
   LIGHT_PINK: "#FEC3D6",
   LIGHT_GREY: "#DEB5C2",
+  BLACK: "#55484C",
 };

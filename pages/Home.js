@@ -7,6 +7,8 @@ import LoveTextInput from "../components/LoveTextInput/LoveTextInput.component";
 import LoveButton from "../components/LoveButton/LoveButton.component";
 import Colors from "../constants/Colors";
 import PlayContext from "../play.context";
+import { Octicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 function Home({ navigation, play }) {
   const [name, setName] = useState(null);
@@ -91,15 +93,34 @@ function Home({ navigation, play }) {
         style={([styles.footer], { flex: growAnim, justifyContent: "center" })}
       >
         {!KeyboardShown && (
-          <LoveButton
-            onPress={() => {
-              play.increment();
-              name?.length &&
-                partner?.length &&
-                navigation.navigate("Results", { name, partner });
-            }}
-            text={"index"}
-          />
+          <View style={{ alignItems: "center" }}>
+            <LoveButton
+              onPress={() => {
+                play.increment();
+                name?.length &&
+                  partner?.length &&
+                  navigation.navigate("Results", { name, partner });
+              }}
+              text={"index"}
+            />
+            <TouchableOpacity onPress={() => play.toggleSound()}>
+              {play.sound ? (
+                <Octicons
+                  name="unmute"
+                  style={{ marginTop: 30 }}
+                  size={20}
+                  color={Colors.BLACK}
+                />
+              ) : (
+                <Octicons
+                  name="mute"
+                  style={{ marginTop: 30 }}
+                  size={20}
+                  color={Colors.BLACK}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
         )}
       </Animated.View>
       <AdMobBanner
