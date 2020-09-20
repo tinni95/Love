@@ -17,7 +17,7 @@ function getRandomNumber(min, max) {
 
 function getRandomColor() {
   return `rgb(${getRandomNumber(240, 255)},${getRandomNumber(
-    82,
+    180,
     212
   )},${getRandomNumber(225, 250)})`;
 }
@@ -175,17 +175,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-  },
-  addButton: {
-    backgroundColor: "green",
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-    bottom: 32,
-    left: 32,
   },
   heartContainer: {
     position: "absolute",

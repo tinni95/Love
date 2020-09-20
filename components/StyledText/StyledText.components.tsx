@@ -19,8 +19,8 @@ export function Bold(props?: any) {
     <Text
       {...props}
       style={[
-        props.style,
         { color: Colors.WHITE, fontFamily: "LobsterTwo_700Bold" },
+        props.style,
       ]}
     />
   );
@@ -31,8 +31,8 @@ export function LightOpen(props?: any) {
     <Text
       {...props}
       style={[
-        props.style,
         { color: Colors.WHITE, fontFamily: "OpenSans_300Light" },
+        props.style,
       ]}
     />
   );
@@ -45,6 +45,7 @@ export function BoldOpen(props?: any) {
       style={[
         props.style,
         { color: Colors.WHITE, fontFamily: "OpenSans_700Bold" },
+        props.style,
       ]}
     />
   );

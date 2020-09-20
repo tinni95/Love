@@ -7,17 +7,20 @@ interface LoveTextInputProps {
   placeholder: string;
   onChangeText: Function;
   value: string;
+  onFocus: any;
 }
 
 const LoveTextInput: React.FC<LoveTextInputProps> = ({
   onChangeText,
   value,
   placeholder,
+  onFocus,
 }) => (
   <TextInput
+    onFocus={onFocus}
     style={styles.textInput}
     placeholder={placeholder}
-    placeholderTextColor={"#806D72"}
+    placeholderTextColor={"white"}
     onChangeText={(text) => onChangeText(text)}
     value={value}
   />

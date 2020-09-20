@@ -1,28 +1,29 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
-import { isSmallDevice } from "../../constants/Layout";
+
 const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
-    borderRadius: 4,
-    color: "black",
+    borderRadius: 8,
+    color: Colors.WHITE,
     borderStyle: "solid",
-    borderColor: Colors.GRAY,
-    backgroundColor: Colors.WHITE,
-    fontFamily: "OpenSans_300Light",
+    borderColor: Colors.LIGHT_PINK,
+    backgroundColor: Colors.LIGHT_PINK,
+    fontFamily: "OpenSans_700Bold",
     width: 220,
     fontSize: 18,
-    height: 40,
+    height: 50,
     textAlign: "center",
     margin: 5,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 1,
     },
-    shadowOpacity: 0.32,
-    shadowRadius: 5.46,
-    elevation: 9,
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+
+    elevation: 1,
   },
 });
 

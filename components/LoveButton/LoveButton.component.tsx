@@ -7,6 +7,7 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
+import { BoldOpen, LightOpen } from "../StyledText/StyledText.components";
 
 import styles from "./LoveButton.styles";
 
@@ -25,7 +26,7 @@ const LoveButton: React.FC<LoveButtonProps> = ({
 }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={[styles.container, buttonStyle]}>
-      <Text style={[styles.text, textStyle]}>{text}</Text>
+      <BoldOpen style={[styles.text, textStyle]}>{text}</BoldOpen>
     </View>
   </TouchableOpacity>
 );
