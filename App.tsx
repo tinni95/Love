@@ -13,6 +13,7 @@ import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./pages/Home";
 import Results from "./pages/Results";
+import PlayContext from "./play.context";
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,7 @@ const forFade = ({ current }) => ({
 });
 
 export default function App() {
+  const [play, setPlay] = React.useState(0);
   let [fontsLoaded] = useFonts({
     LobsterTwo_400Regular,
     LobsterTwo_400Regular_Italic,
@@ -43,25 +45,33 @@ export default function App() {
     return <AppLoading />;
   }
   return (
-    <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          cardShadowEnabled: false,
-        }}
-        initialRouteName="Home"
-      >
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ cardStyleInterpolator: forFade }}
-        />
-        <Stack.Screen
-          name="Results"
-          component={Results}
-          options={{ cardStyleInterpolator: forFade }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PlayContext.Provider
+      value={{
+        increment: () => setPlay(play + 1),
+        play,
+        reset: () => setPlay(0),
+      }}
+    >
+      <NavigationContainer theme={MyTheme}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            cardShadowEnabled: false,
+          }}
+          initialRouteName="Home"
+        >
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ cardStyleInterpolator: forFade }}
+          />
+          <Stack.Screen
+            name="Results"
+            component={Results}
+            options={{ cardStyleInterpolator: forFade }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PlayContext.Provider>
   );
 }

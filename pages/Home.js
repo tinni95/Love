@@ -2,16 +2,31 @@ import React, { useState } from "react";
 import { StyleSheet, View, Keyboard, Animated } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Bold } from "../components/StyledText/StyledText.components";
-
+import { AdMobBanner, AdMobInterstitial } from "expo-ads-admob";
 import LoveTextInput from "../components/LoveTextInput/LoveTextInput.component";
 import LoveButton from "../components/LoveButton/LoveButton.component";
 import Colors from "../constants/Colors";
+import PlayContext from "../play.context";
 
-export default function Home({ navigation }) {
+function Home({ navigation, play }) {
   const [name, setName] = useState(null);
   const [partner, setPartner] = useState(null);
   const [KeyboardShown, setKeyboardShown] = useState(false);
-  const growAnim = React.useRef(new Animated.Value(0.5)).current;
+  const growAnim = React.useRef(new Animated.Value(0.3)).current;
+
+  React.useEffect(() => {
+    const playAd = async () => {
+      await AdMobInterstitial.setAdUnitID(
+        "ca-app-pub-3940256099942544/8691691433"
+      ); // Test ID, Replace with your-admob-unit-id
+      await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
+      await AdMobInterstitial.showAdAsync();
+    };
+    if (play.play >= 3) {
+      playAd();
+      play.reset();
+    }
+  }, [play.play]);
 
   React.useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
@@ -77,17 +92,22 @@ export default function Home({ navigation }) {
       >
         {!KeyboardShown && (
           <LoveButton
-            onPress={() =>
+            onPress={() => {
+              play.increment();
               name?.length &&
-              partner?.length &&
-              navigation.navigate("Results", { name, partner })
-            }
+                partner?.length &&
+                navigation.navigate("Results", { name, partner });
+            }}
             text={"index"}
           />
         )}
       </Animated.View>
-
-      <View style={styles.spacer} />
+      <AdMobBanner
+        bannerSize="fullBanner"
+        adUnitID="ca-app-pub-3940256099942544/6300978111"
+        servePersonalizedAds // true or false
+        onDidFailToReceiveAdWithError={(e) => console.log(e)}
+      />
     </View>
   );
 }
@@ -111,3 +131,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+const HomeWithContext = (props) => (
+  <PlayContext.Consumer>
+    {(play) => <Home {...props} play={play} />}
+  </PlayContext.Consumer>
+);
+
+export default HomeWithContext;
