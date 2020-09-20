@@ -17,7 +17,9 @@ import { EvilIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import Axios from "axios";
 import AnimateNumber from "react-native-countup";
-import { API_KEY } from "react-native-dotenv";
+
+import { Audio } from "expo-av";
+import { API_KEY } from "../env";
 
 export default Results = ({ navigation, route }) => {
   const { name, partner } = route.params;
@@ -39,8 +41,17 @@ export default Results = ({ navigation, route }) => {
     }).start();
   };
 
+  const playSound = async (perc) => {
+    const soundObject = new Audio.Sound();
+    try {
+      await soundObject.loadAsync(require("../assets/sounds/yes.wav"));
+      await soundObject.playAsync();
+      await soundObject.unloadAsync();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getLimit = (perc) => {
-    console.log(perc);
     if (perc == 0) {
       return 1;
     } else if (perc < 15) {
@@ -65,6 +76,7 @@ export default Results = ({ navigation, route }) => {
           onFinish={() => {
             setTextAnimationEnd(true);
             fadeIn();
+            playSound();
           }}
           countBy={1}
           value={num}
