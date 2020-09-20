@@ -23,15 +23,26 @@ import { API_KEY } from "../env";
 
 export default Results = ({ navigation, route }) => {
   const { name, partner } = route.params;
+  const soundObject = new Audio.Sound();
+
+  const [looping, setLooping] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
+  const [animate, setTextAnimationEnd] = React.useState(false);
+  const [result, setResult] = React.useState(null);
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useLayoutEffect(() => {
     calculateIndex(name, partner);
   }, []);
 
-  const [loading, setLoading] = React.useState(true);
-  const [animate, setTextAnimationEnd] = React.useState(false);
-  const [result, setResult] = React.useState(null);
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    const unload = async () => {
+      await soundObject.setStatusAsync({
+        shouldPlay: false,
+      });
+    };
+    unload();
+  }, [looping]);
 
   const fadeIn = () => {
     // Will change fadeAnim value to 1 in 5 seconds
@@ -42,28 +53,32 @@ export default Results = ({ navigation, route }) => {
   };
 
   const playSound = async (perc) => {
-    const soundObject = new Audio.Sound();
+    console.log("SOUND");
     try {
-      await soundObject.loadAsync(require("../assets/sounds/yes.wav"));
+      if (perc > 80) {
+        await soundObject.loadAsync(require("../assets/sounds/yes.wav"));
+      } else if (perc > 50) {
+        await soundObject.loadAsync(require("../assets/sounds/wow.wav"));
+      } else if (perc > 10) {
+        await soundObject.loadAsync(require("../assets/sounds/hm.wav"));
+      } else await soundObject.loadAsync(require("../assets/sounds/fail.mp3"));
       await soundObject.playAsync();
-      await soundObject.unloadAsync();
     } catch (error) {
       console.log(error);
     }
   };
+
   const getLimit = (perc) => {
-    if (perc == 0) {
+    if (perc < 10) {
       return 1;
-    } else if (perc < 15) {
-      return 5;
-    } else if (perc < 33) return 10;
+    } else if (perc < 33) return 5;
     else if (perc < 66) {
       return 15;
     } else if (perc < 88) {
       //yes
       return 25;
     } else {
-      50;
+      35;
     }
   };
 
@@ -76,7 +91,8 @@ export default Results = ({ navigation, route }) => {
           onFinish={() => {
             setTextAnimationEnd(true);
             fadeIn();
-            playSound();
+            setLooping(false);
+            playSound(num);
           }}
           countBy={1}
           value={num}
@@ -87,9 +103,9 @@ export default Results = ({ navigation, route }) => {
     );
   };
 
-  const calculateIndex = (name, partner) => {
+  const calculateIndex = async (name, partner) => {
     setLoading(true);
-    Axios.get(
+    const result = await Axios.get(
       `https://love-calculator.p.rapidapi.com/getPercentage?fname=${name}&sname=${partner}`,
       {
         headers: {
@@ -97,10 +113,12 @@ export default Results = ({ navigation, route }) => {
           "x-rapidapi-key": API_KEY,
         },
       }
-    ).then((res) => {
-      setResult(res.data);
-      setLoading(false);
-    });
+    );
+    setResult(result.data);
+    setLoading(false);
+    await soundObject.loadAsync(require("../assets/sounds/tictoc.wav"));
+
+    await soundObject.setStatusAsync({ shouldPlay: true });
   };
 
   if (loading || !result) {
