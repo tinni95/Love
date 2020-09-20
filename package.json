@@ -8,6 +8,8 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/baloo-tammudu": "^0.0.2",
+    "@expo-google-fonts/baloo-tammudu-2": "^0.1.0",
     "@expo-google-fonts/lobster-two": "^0.1.0",
     "@expo-google-fonts/open-sans": "^0.1.0",
     "@react-native-community/masked-view": "0.1.10",
@@ -15,6 +17,7 @@
     "@react-navigation/stack": "^5.9.0",
     "axios": "^0.19.2",
     "expo": "~38.0.8",
+    "expo-ads-admob": "~8.2.1",
     "expo-status-bar": "^1.0.2",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",

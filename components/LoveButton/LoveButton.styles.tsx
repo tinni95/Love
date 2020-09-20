@@ -4,15 +4,17 @@ import Colors from "../../constants/Colors";
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    backgroundColor: Colors.MEDIUM_PINK,
-    borderRadius: 20,
+    alignItems: "center",
+    alignContent: "center",
+    backgroundColor: Colors.LIGHT_GREY,
+    borderRadius: 25,
     height: 50,
-    width: 200,
+    padding: 15,
   },
   text: {
+    marginTop: 10,
     textAlign: "center",
     color: Colors.WHITE,
-    fontWeight: "400",
     fontSize: 20,
   },
 });

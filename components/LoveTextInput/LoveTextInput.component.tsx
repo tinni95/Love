@@ -17,8 +17,12 @@ const LoveTextInput: React.FC<LoveTextInputProps> = ({
   onFocus,
 }) => (
   <TextInput
+    textAlign="center"
     onFocus={onFocus}
-    style={styles.textInput}
+    style={{
+      ...styles.textInput,
+      paddingTop: !value || value.length == 0 ? 10 : 0,
+    }}
     placeholder={placeholder}
     placeholderTextColor={"white"}
     onChangeText={(text) => onChangeText(text)}

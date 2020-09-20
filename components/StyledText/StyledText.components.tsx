@@ -31,7 +31,7 @@ export function LightOpen(props?: any) {
     <Text
       {...props}
       style={[
-        { color: Colors.WHITE, fontFamily: "OpenSans_300Light" },
+        { color: Colors.WHITE, fontFamily: "BalooTammudu2_700Bold" },
         props.style,
       ]}
     />
@@ -44,7 +44,7 @@ export function BoldOpen(props?: any) {
       {...props}
       style={[
         props.style,
-        { color: Colors.WHITE, fontFamily: "OpenSans_700Bold" },
+        { color: Colors.WHITE, fontFamily: "BalooTammudu2_700Bold" },
         props.style,
       ]}
     />

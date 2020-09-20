@@ -57,7 +57,7 @@ export default Results = ({ navigation, route }) => {
   const animatedNumber = (num) => {
     return (
       <BoldOpen
-        style={{ fontSize: 80, textAlign: "center", color: Colors.MEDIUM_PINK }}
+        style={{ fontSize: 80, marginBottom: -40, color: Colors.DARK_PINK }}
       >
         <AnimateNumber
           onFinish={() => {
@@ -109,15 +109,20 @@ export default Results = ({ navigation, route }) => {
           <Bold style={styles.couple}>
             {name} and {partner}
           </Bold>
-          <BoldOpen style={{ color: Colors.MEDIUM_PINK }}>Love Index</BoldOpen>
+          <BoldOpen
+            style={{ color: Colors.MEDIUM_PINK, fontSize: 28, marginTop: 10 }}
+          >
+            Love Index
+          </BoldOpen>
         </Animated.View>
         <View style={styles.numberContainer}>
           {animatedNumber(result.percentage)}
+          <Animated.View style={{ opacity: fadeAnim }}>
+            <LightOpen style={styles.resultText}>{result.result}</LightOpen>
+          </Animated.View>
         </View>
         <Animated.View style={{ flex: 1, opacity: fadeAnim, ...styles.footer }}>
-          <LightOpen style={styles.resultText}>{result.result}</LightOpen>
           <LoveButton
-            buttonStyle={{ backgroundColor: Colors.LIGHT_PINK }}
             onPress={() => {
               setResult(null);
               navigation.navigate("Home");
@@ -147,19 +152,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   numberContainer: {
-    flex: 1.5,
+    flex: 2.5,
     justifyContent: "center",
+    alignItems: "center",
   },
   heading: {
-    flex: 1,
+    flex: 2,
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   resultText: {
-    color: Colors.DARK_PINK,
+    color: Colors.MEDIUM_PINK,
     fontSize: 30,
     textAlign: "center",
-    marginBottom: 20,
   },
   couple: { fontSize: 38, color: Colors.MEDIUM_PINK },
 });

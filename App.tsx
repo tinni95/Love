@@ -6,11 +6,7 @@ import {
   LobsterTwo_700Bold,
   LobsterTwo_700Bold_Italic,
 } from "@expo-google-fonts/lobster-two";
-import {
-  OpenSans_300Light,
-  OpenSans_300Light_Italic,
-  OpenSans_700Bold,
-} from "@expo-google-fonts/open-sans";
+import { BalooTammudu2_700Bold } from "@expo-google-fonts/baloo-tammudu-2";
 
 import { AppLoading } from "expo";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
@@ -24,7 +20,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: "white",
+    background: "#FFF",
   },
 };
 
@@ -40,9 +36,7 @@ export default function App() {
     LobsterTwo_400Regular_Italic,
     LobsterTwo_700Bold,
     LobsterTwo_700Bold_Italic,
-    OpenSans_300Light,
-    OpenSans_300Light_Italic,
-    OpenSans_700Bold,
+    BalooTammudu2_700Bold,
   });
 
   if (!fontsLoaded) {

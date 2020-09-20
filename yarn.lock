@@ -991,6 +991,16 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@expo-google-fonts/baloo-tammudu-2@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/baloo-tammudu-2/-/baloo-tammudu-2-0.1.0.tgz#1ae28566315cd55634b32fa143efa3a66fb821ed"
+  integrity sha512-kenIIbPkl2XAFVuzlFv63GT1xFUPAhkQH0jVQwnmkpmWnQ+APY2rtQLo+stIHMc3/Ajd78zM+0l3qhKQ3xRPug==
+
+"@expo-google-fonts/baloo-tammudu@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/baloo-tammudu/-/baloo-tammudu-0.0.2.tgz#c59b421dbea275b7c4e1f1c39a6cc3445cefccc1"
+  integrity sha512-9lHjovqMVyENRFBhWazo6cRapbDKx+hzzb5FkKrWjd6TcibncNhCQw0BPpejZ7MTp2Fs9RLNWAsSBMVk2Ie5EA==
+
 "@expo-google-fonts/lobster-two@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/lobster-two/-/lobster-two-0.1.0.tgz#f578a1aad872bbbaa5882aeec3a08d56cd301231"
@@ -2448,6 +2458,13 @@ expand-brackets@^2.1.4:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
+
+expo-ads-admob@~8.2.1:
+  version "8.2.1"
+  resolved "https://registry.yarnpkg.com/expo-ads-admob/-/expo-ads-admob-8.2.1.tgz#55afdbb9986dc2d9d97a67c65e21d880b40bf468"
+  integrity sha512-el5DlWpetcyWT52fnYxxlFHkTAjcBgymxKbbHmvLCinz0jCZXEip2OtdktZxVlmTwFgI2Vn13Szdw55OpluW8w==
+  dependencies:
+    prop-types "^15.6.2"
 
 expo-asset@~8.1.7:
   version "8.1.7"
