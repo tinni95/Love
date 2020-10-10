@@ -18,14 +18,16 @@ import Colors from "../constants/Colors";
 import Axios from "axios";
 import AnimateNumber from "react-native-countup";
 
+import { captureRef as takeSnapshotAsync } from "react-native-view-shot";
 import { Audio } from "expo-av";
 import { API_KEY } from "../env";
 import PlayContext from "../play.context";
+import PixelRatio from "react-native/Libraries/Utilities/PixelRatio";
 
 const Results = ({ navigation, route, play }) => {
   const { name, partner } = route.params;
   const soundObject = new Audio.Sound();
-
+  let shot = React.useRef(null);
   const [looping, setLooping] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
   const [animate, setTextAnimationEnd] = React.useState(false);
@@ -50,11 +52,11 @@ const Results = ({ navigation, route, play }) => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
+      useNativeDriver: false,
     }).start();
   };
 
   const playSound = async (perc) => {
-    console.log("SOUND");
     try {
       if (perc > 80) {
         await soundObject.loadAsync(require("../assets/sounds/yes.wav"));
@@ -129,8 +131,23 @@ const Results = ({ navigation, route, play }) => {
     );
   }
 
+  const captureAndShareScreenshot = async () => {
+    const targetPixelCount = 1080; // If you want full HD pictures
+    const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
+    // pixels * pixelratio = targetPixelCount, so pixels = targetPixelCount / pixelRatio
+    const pixels = targetPixelCount / pixelRatio;
+
+    await takeSnapshotAsync(shot.current, {
+      result: "tmpfile",
+      height: pixels,
+      width: pixels,
+      quality: 1,
+      format: "png",
+    });
+  };
+
   return (
-    <View style={styles.container}>
+    <View ref={shot} style={styles.container}>
       <HeartFloating
         onComplete={() => setTextAnimationEnd(false)}
         animate={animate}
@@ -160,12 +177,6 @@ const Results = ({ navigation, route, play }) => {
             }}
             text={"Try again"}
           />
-          <TouchableOpacity
-            style={{ flex: 1, justifyContent: "flex-end", paddingBottom: 40 }}
-            onPress={() => {}}
-          >
-            <EvilIcons name="share-apple" size={24} color="black" />
-          </TouchableOpacity>
         </Animated.View>
       </HeartFloating>
     </View>

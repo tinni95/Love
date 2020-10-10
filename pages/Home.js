@@ -9,18 +9,16 @@ import Colors from "../constants/Colors";
 import PlayContext from "../play.context";
 import { Octicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import admob from "../constants/Admob.json";
 
 function Home({ navigation, play }) {
   const [name, setName] = useState(null);
   const [partner, setPartner] = useState(null);
   const [KeyboardShown, setKeyboardShown] = useState(false);
-  const growAnim = React.useRef(new Animated.Value(1)).current;
 
   React.useEffect(() => {
     const playAd = async () => {
-      await AdMobInterstitial.setAdUnitID(
-        "ca-app-pub-3940256099942544/8691691433"
-      ); // Test ID, Replace with your-admob-unit-id
+      await AdMobInterstitial.setAdUnitID(admob.intersitial);
       await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
       await AdMobInterstitial.showAdAsync();
     };
@@ -29,42 +27,6 @@ function Home({ navigation, play }) {
       play.reset();
     }
   }, [play.play]);
-
-  React.useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
-
-    return () => {
-      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
-      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
-    };
-  }, []);
-
-  const _keyboardDidShow = () => {
-    setKeyboardShown(true);
-    growIn();
-  };
-
-  const _keyboardDidHide = () => {
-    setKeyboardShown(false);
-    growOut();
-  };
-
-  const growIn = () => {
-    Animated.timing(growAnim, {
-      toValue: 0.3,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const growOut = () => {
-    Animated.timing(growAnim, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  };
 
   return (
     <View style={styles.container}>
@@ -89,9 +51,7 @@ function Home({ navigation, play }) {
         />
       </View>
 
-      <Animated.View
-        style={([styles.footer], { flex: growAnim, justifyContent: "center" })}
-      >
+      <View style={styles.footer}>
         {!KeyboardShown && (
           <View style={{ alignItems: "center" }}>
             <LoveButton
@@ -122,10 +82,11 @@ function Home({ navigation, play }) {
             </TouchableOpacity>
           </View>
         )}
-      </Animated.View>
+      </View>
+
       <AdMobBanner
         bannerSize="fullBanner"
-        adUnitID="ca-app-pub-3940256099942544/6300978111"
+        adUnitID={admob.bannerId}
         servePersonalizedAds // true or false
         onDidFailToReceiveAdWithError={(e) => console.log(e)}
       />
@@ -148,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   footer: {
-    flex: 0.5,
+    flex: 1,
     justifyContent: "center",
   },
 });

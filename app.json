@@ -13,14 +13,18 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "softwareKeyboardLayoutMode": "pan",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-8633906678424527~1378161740"
-      }
+      },
+      "package": "it.diverseagency.loveIndex"
     },
     "web": {
       "favicon": "./assets/favicon.png"
